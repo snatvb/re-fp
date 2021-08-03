@@ -1,0 +1,13 @@
+.vscode/
+.idea/
+.vs/
+node_modules/
+dist/
+lib/
+
+.DS_Store
+Thumb.db
+*.log
+.bsb.lock
+.merlin
+*.bs.js
