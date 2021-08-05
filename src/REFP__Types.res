@@ -4,10 +4,6 @@ module type Comparable = {
   let eq: (t, t) => bool
 }
 
-module type Kind1 = {
-  type t<'a>
-}
-
 module type Pointed1 = {
   type t<'a>
 
