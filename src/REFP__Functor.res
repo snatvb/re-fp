@@ -1,6 +1,5 @@
 module type Functor1 = {
-  open REFP__Ponted
-  include Pointed1
+  include REFP__Pointed.Pointed1
 
   let map: (t<'a>, 'a => 'b) => t<'b>
 }

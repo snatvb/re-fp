@@ -6,7 +6,7 @@ let ap = (fa: t<'a>, f: t<'a => 'b>): t<'b> => () => f()(fa())
 let chain = (fa: t<'a>, f: 'a => t<'b>): t<'b> => () => f(fa())()
 let flatten = (fa: t<t<'a>>): t<'a> => fa->chain(x => x)
 
-module Pointed: REFP__Types.Pointed1 with type t<'a> = t<'a> = {
+module Pointed: REFP__Pointed.Pointed1 with type t<'a> = t<'a> = {
   type t<'a> = t<'a>
   let from = from
 }

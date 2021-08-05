@@ -1,53 +1,68 @@
 {
-    "name": "re-fp",
-    "version": "0.0.1-alpha.0",
-    "author": "snatvb",
-    "scripts": {
-        "build": "bsb -make-world",
-        "start": "cross-env BS_WATCH_CLEAR=true concurrently \"bsb -make-world -w\" \"webpack\"",
-        "clean": "bsb -clean-world",
-        "test": "is-ci \"test:ci\" \"test:watch\"",
-        "test:ci": "jest",
-        "test:watch": "jest --watch",
-        "webpack": "cross-env NODE_ENV=development webpack -w",
-        "webpack:production": "cross-env NODE_ENV=production webpack",
-        "server": "webpack serve",
-        "vercel-build": "rimraf dist && npm run build && npm run webpack:production"
-    },
-    "keywords": [
-        "ReScript",
-        "Functional",
-        "FP",
-        "ReasonML",
-        "BuckleScript",
-        "BS"
+  "name": "re-fp",
+  "version": "0.0.0-development",
+  "author": "snatvb",
+  "scripts": {
+    "commit": "git-cz",
+    "build": "bsb -make-world",
+    "start": "cross-env BS_WATCH_CLEAR=true concurrently \"bsb -make-world -w\" \"webpack\"",
+    "clean": "bsb -clean-world",
+    "test": "is-ci \"test:ci\" \"test:watch\"",
+    "test:ci": "jest",
+    "test:watch": "jest --watch",
+    "webpack": "cross-env NODE_ENV=development webpack -w",
+    "webpack:production": "cross-env NODE_ENV=production webpack",
+    "vercel-build": "rimraf dist && npm run build && npm run webpack:production",
+    "semantic-release": "semantic-release"
+  },
+  "keywords": [
+    "ReScript",
+    "Functional",
+    "FP",
+    "ReasonML",
+    "BuckleScript",
+    "BS"
+  ],
+  "files": [
+    "src",
+    "bsconfig.json"
+  ],
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "@semantic-release/changelog": "5.0.1",
+    "@semantic-release/git": "9.0.0",
+    "bs-platform": "9.0.2",
+    "commitizen": "4.2.4",
+    "concurrently": "6.2.0",
+    "cross-env": "7.0.3",
+    "cz-conventional-changelog": "3.3.0",
+    "is-ci-cli": "2.2.0",
+    "jest": "27.0.6",
+    "rimraf": "3.0.2",
+    "semantic-release": "^17.4.4",
+    "webpack": "5.48.0",
+    "webpack-cli": "4.7.2"
+  },
+  "jest": {
+    "moduleDirectories": [
+      "node_modules"
     ],
-    "license": "MIT",
-    "dependencies": {},
-    "devDependencies": {
-        "@semantic-release/changelog": "5.0.1",
-        "@semantic-release/git": "9.0.0",
-        "bs-platform": "9.0.2",
-        "concurrently": "6.2.0",
-        "cross-env": "7.0.3",
-        "is-ci-cli": "2.2.0",
-        "jest": "27.0.6",
-        "rimraf": "3.0.2",
-        "webpack": "5.48.0",
-        "webpack-cli": "4.7.2"
-    },
-    "jest": {
-        "moduleDirectories": [
-            "node_modules"
-        ],
-        "roots": [
-            "test"
-        ],
-        "testMatch": [
-            "**/*__test.bs.js"
-        ],
-        "transformIgnorePatterns": [
-            "node_modules/(?!(bs-platform)/)"
-        ]
-    }
+    "roots": [
+      "test"
+    ],
+    "testMatch": [
+      "**/*__test.bs.js"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!(bs-platform)/)"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/snatvb/re-fp.git"
+  },
+  "czConfig": {
+    "path": "node_modules/cz-conventional-changelog"
+  }
 }
