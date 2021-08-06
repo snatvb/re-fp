@@ -1,41 +1,27 @@
 module type Type = {
   type t<'a> = unit => 'a
-  let from: 'a => t<'a>
-  let map: (t<'a>, 'a => 'b) => t<'b>
-  let ap: (t<'a>, t<'a => 'b>) => t<'b>
-  let chain: (t<'a>, 'a => t<'b>) => t<'b>
+
+  include REFP__Functor.Functor1 with type t<'a> := t<'a>
+  include REFP__Applicative.Applicative1 with type t<'a> := t<'a>
+  include REFP__Chain.Chain1 with type t<'a> := t<'a>
   let flatten: t<t<'a>> => t<'a>
 }
 
 module IO: Type = {
   type t<'a> = unit => 'a
+
   let from = (f, ()) => f
   let map = (fa, f): t<'b> => () => fa()->f
   let ap = (fa, f): t<'b> => () => f()(fa())
   let chain = (fa, f): t<'b> => () => f(fa())()
   let flatten = (fa): t<'a> => fa->chain(x => x)
-
-  module Pointed: REFP__Pointed.Pointed1 with type t<'a> = t<'a> = {
-    type t<'a> = t<'a>
-    let from = from
-  }
-
-  module Functor: REFP__Types.Functor1 with type t<'a> = t<'a> = {
-    include Pointed
-    let map = map
-  }
-
-  module Applicative: REFP__Types.Applicative1 with type t<'a> = t<'a> = {
-    include Functor
-    let ap = ap
-  }
-
-  module Chain: REFP__Types.Chain1 with type t<'a> = t<'a> = {
-    include Applicative
-    let chain = chain
-  }
 }
 
 include IO
 module Apply = REFP__Applicative.Apply1(IO)
 include Apply
+
+module Pointed = REFP__Pointed.MakePointed1(IO)
+module Functor = REFP__Functor.MakeFunctor1(IO)
+module Applicative = REFP__Applicative.MakeApplicative1(IO)
+module Chain = REFP__Chain.MakeChain1(IO)
