@@ -6,6 +6,7 @@ module type Type = {
   include REFP__Applicative.Applicative1 with type t<'a> := t<'a>
   include REFP__Chain.Chain1 with type t<'a> := t<'a>
   let flatten: t<t<'a>> => t<'a>
+  let delay: (int, t<'a>) => t<'a>
 }
 
 module Task: Type = {
@@ -20,6 +21,18 @@ module Task: Type = {
   }
   let chain = (ma, f, ()) => ma()->Promise.then(a => f(a)())
   let flatten = chain(_, identity)
+  let delay = (ms, ma: t<'a>): t<'a> => {
+    () =>
+      Promise.make((resolve, _) => {
+        Js.Global.setTimeout(() => {
+          ma()
+          ->Promise.thenResolve(a => {
+            resolve(. a)->ignore
+          })
+          ->ignore
+        }, ms)->ignore
+      })
+  }
 }
 
 module Pointed = REFP__Pointed.MakePointed1(Task)
