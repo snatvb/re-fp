@@ -3,3 +3,7 @@ module type Pointed1 = {
 
   let from: 'a => t<'a>
 }
+
+module MakePointed1 = (Item: Pointed1) => {
+  include Item
+}

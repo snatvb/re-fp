@@ -11,3 +11,7 @@ module Apply1 = (Item: Applicative1) => {
   let apSecond = (second: Item.t<'b>, first: Item.t<'a>) =>
     Item.ap(Item.map(first, (b, ()) => b), second)
 }
+
+module MakeApplicative1 = (Item: Applicative1) => {
+  include Item
+}
