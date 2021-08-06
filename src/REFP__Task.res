@@ -5,9 +5,11 @@ module type Type = {
   include REFP__Functor.Functor1 with type t<'a> := t<'a>
   include REFP__Applicative.Applicative1 with type t<'a> := t<'a>
   include REFP__Chain.Chain1 with type t<'a> := t<'a>
+  let flatten: t<t<'a>> => t<'a>
 }
 
 module Task: Type = {
+  open REFP__Functions
   type t<'a> = REFP__IO.t<Promise.t<'a>>
 
   let fromIO = (ma, ()) => ma()->Promise.resolve
@@ -17,6 +19,7 @@ module Task: Type = {
     () => Promise.all2((fa(), fab()))->Promise.thenResolve(((a, f)) => f(a))
   }
   let chain = (ma, f, ()) => ma()->Promise.then(a => f(a)())
+  let flatten = chain(_, identity)
 }
 
 module Pointed = REFP__Pointed.MakePointed1(Task)
