@@ -21,7 +21,7 @@ module Task: Type = {
   }
   let chain = (ma, f, ()) => ma()->Promise.then(a => f(a)())
   let flatten = chain(_, identity)
-  let delay = (ms, ma: t<'a>): t<'a> => {
+  let delay = (ms, ma) => {
     () => {
       Promise.make((resolve, _) => {
         Js.Global.setTimeout(() => {
