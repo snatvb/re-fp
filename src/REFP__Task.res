@@ -2,6 +2,7 @@ module type Type = {
   type t<'a> = REFP__IO.t<Promise.t<'a>>
 
   let fromIO: REFP__IO.t<'a> => t<'a>
+  include REFP__Pointed.Pointed1 with type t<'a> := t<'a>
   include REFP__Functor.Functor1 with type t<'a> := t<'a>
   include REFP__Applicative.Applicative1 with type t<'a> := t<'a>
   include REFP__Chain.Chain1 with type t<'a> := t<'a>
