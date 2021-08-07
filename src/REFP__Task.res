@@ -42,3 +42,4 @@ module Applicative = REFP__Applicative.MakeApplicative1(Task)
 module Chain = REFP__Chain.MakeChain1(Task)
 module Apply = REFP__Applicative.Apply1(Task)
 include Apply
+include Task
