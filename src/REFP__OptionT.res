@@ -20,6 +20,7 @@ module MakePointed1 = (Item: Pointed1) => {
 
 module MakeFunctor1 = (Item: Functor1) => {
   let someF = fa => fa->Item.map(a => Some(a))
+  let map = (f, fa) => Item.map(fa, ga => Option.map(ga, f))
 }
 
 module MakeApply1 = (Item: Apply1) => {

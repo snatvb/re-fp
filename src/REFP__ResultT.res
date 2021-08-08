@@ -31,8 +31,8 @@ module MakePointed1 = (Item: Pointed1) => {
 }
 
 module MakeFunctor1 = (Item: Functor1) => {
+  let map = (f, fa) => Item.map(fa, ga => Result.map(ga, f))
   let okF = fa => fa->Item.map(a => Result.Ok(a))
-  let map = okF
   let errorF = fa => fa->Item.map(a => Result.Error(a))
 }
 
