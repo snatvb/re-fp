@@ -54,7 +54,7 @@ module MakeOrLeft1 = (M: REFP__Monad.Type1) => {
 }
 
 module MakeMatch1 = (F: REFP__Functor.Functor1) => {
-  let match = (ma, onOk, onError) => ma->F.map(REFP__ResultT.matchResult(onOk, onError))
+  let match = (ma, onOk, onError) => ma->F.map(matchResult(onOk, onError))
 }
 
 module MakeMapError1 = (F: REFP__Functor.Functor1) => {
