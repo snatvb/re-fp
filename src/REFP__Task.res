@@ -43,5 +43,4 @@ module Applicative = REFP__Applicative.MakeApplicative1(Task)
 module Chain = REFP__Chain.MakeChain1(Task)
 module Apply = REFP__Applicative.MakeApply1(Task)
 module Monad = REFP__Monad.MakeMonad1(Task)
-include Apply
 include Task

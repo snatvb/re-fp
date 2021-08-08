@@ -18,11 +18,19 @@ module type Applicative2 = {
   include Apply2 with type t<'a, 'b> := t<'a, 'b>
 }
 
-module MakeApply1 = (Item: Applicative1) => {
+module MakeApFirstSecond1 = (Item: Applicative1) => {
   let apFirst = (second: Item.t<'b>, first: Item.t<'a>) =>
     Item.ap(second, Item.map(first, (a, ()) => a))
   let apSecond = (second: Item.t<'b>, first: Item.t<'a>) =>
     Item.ap(Item.map(first, (b, ()) => b), second)
+}
+
+module MakeApply1 = (Item: Apply1) => {
+  include Item
+}
+
+module MakeApply2 = (Item: Apply2) => {
+  include Item
 }
 
 module MakeApplicative1 = (Item: Applicative1) => {
