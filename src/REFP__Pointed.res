@@ -8,6 +8,7 @@ module type Pointed2 = {
   type t<'a, 'b>
 
   let from: 'a => t<'a, 'b>
+  let from2: 'b => t<'a, 'b>
 }
 
 module MakePointed1 = (Item: Pointed1) => {

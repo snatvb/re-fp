@@ -8,6 +8,7 @@ module type Chain2 = {
   include REFP__Applicative.Apply2
 
   let chain: (t<'a, 'b>, 'a => t<'c, 'b>) => t<'c, 'b>
+  let chain2: (t<'a, 'b>, 'b => t<'a, 'c>) => t<'a, 'c>
 }
 
 module MakeChain1 = (Item: Chain1) => {
