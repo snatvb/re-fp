@@ -12,8 +12,6 @@ module MakeFunctor1 = (Item: Functor1) => {
   let errorF = fa => fa->Item.map(a => Result.Error(a))
 }
 
-// module MakeFromResult1 = (Item: P)
-
 let matchResult = (onOk, onError, ma) =>
   switch ma {
   | Ok(a) => onOk(a)
