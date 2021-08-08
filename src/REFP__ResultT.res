@@ -12,15 +12,10 @@ module MakeFunctor1 = (Item: Functor1) => {
   let errorF = fa => fa->Item.map(a => Result.Error(a))
 }
 
-module MakeResultT1 = (Poined: Pointed1, Functor: Functor1) => {
-  include MakePointed1(Poined)
-  include MakeFunctor1(Functor)
+// module MakeFromResult1 = (Item: P)
 
-  let okTask = okF
-  let errorTask = errorF
-  let okIO = a => a->Functor.from->okTask
-  let fromIO = okIO
-  let errorIO = a => a->Functor.from->errorTask
-  let fromTask = okTask
-  let fromResult = Poined.from
-}
+let matchResult = (onOk, onError, ma) =>
+  switch ma {
+  | Ok(a) => onOk(a)
+  | Error(e) => onError(e)
+  }
