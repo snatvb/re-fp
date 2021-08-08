@@ -9,7 +9,8 @@ module TaskResult = {
   let errorIO = a => a->REFP__Task.fromIO->errorTask
   let fromTask = okTask
   let fromResult = REFP__Task.from
-  // let match = (ma, onOk, onError) => ma->Functor.map(matchResult(onOk, onError))
+  let match = (ma, onOk, onError) =>
+    ma->REFP__Task.Functor.map(REFP__ResultT.matchResult(onOk, onError))
 }
 
 include TaskResult
