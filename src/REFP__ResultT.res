@@ -4,6 +4,27 @@ open REFP__Functor
 open REFP__Applicative
 module Result = Belt.Result
 
+let matchResult = (ma, onOk, onError) =>
+  switch ma {
+  | Ok(a) => onOk(a)
+  | Error(e) => onError(e)
+  }
+
+let mapError = (ma, f) =>
+  switch ma {
+  | Error(a) => Error(f(a))
+  | Ok(a) => Ok(a)
+  }
+
+let chainError = (ma, f) =>
+  switch ma {
+  | Error(a) => f(a)
+  | Ok(a) => Ok(a)
+  }
+
+let ok = a => Ok(a)
+let error = a => Error(a)
+
 module MakePointed1 = (Item: Pointed1) => {
   let ok = (a: 'a) => a->Result.Ok->Item.from
   let error = a => a->Result.Error->Item.from
@@ -19,11 +40,15 @@ module MakeApply1 = (Item: Apply1) => {
 }
 
 module MakeChain1 = (Item: Chain1) => {
-  let ap = fa => fa->Item.chain
+  let chain = fa => fa->Item.chain
 }
 
-let matchResult = (onOk, onError, ma) =>
-  switch ma {
-  | Ok(a) => onOk(a)
-  | Error(e) => onError(e)
-  }
+module MakeOrLeft1 = (M: REFP__Monad.Type1) => {
+  let orError = (ma, f) =>
+    ma->M.chain(ra =>
+      switch ra {
+      | Ok(a) => a->Ok->M.from
+      | Error(e) => e->f->M.map(error)
+      }
+    )
+}

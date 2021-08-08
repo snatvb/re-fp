@@ -8,6 +8,13 @@ module type Type1 = {
   include Chain1 with type t<'a> := t<'a>
 }
 
+module type Type2 = {
+  type t<'a, 'b>
+
+  include Applicative2 with type t<'a, 'b> := t<'a, 'b>
+  include Chain2 with type t<'a, 'b> := t<'a, 'b>
+}
+
 module MakeMonad1 = (Item: Type1) => {
   include Item
 }

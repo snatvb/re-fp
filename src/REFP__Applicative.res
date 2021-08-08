@@ -1,21 +1,21 @@
 module type Apply1 = {
-  type t<'a>
+  include REFP__Functor.Functor1
   let ap: (t<'a>, t<'a => 'b>) => t<'b>
 }
 
 module type Apply2 = {
-  type t<'a, 'b>
+  include REFP__Functor.Functor2
   let ap: (t<'a, 'b>, t<'a => 'c, 'b>) => t<'c, 'b>
   let ap2: (t<'a, 'b>, t<'a, 'b => 'c>) => t<'a, 'c>
 }
 
 module type Applicative1 = {
-  include REFP__Functor.Functor1
+  include REFP__Pointed.Pointed1
   include Apply1 with type t<'a> := t<'a>
 }
 
 module type Applicative2 = {
-  include REFP__Functor.Functor2
+  include REFP__Pointed.Pointed2
   include Apply2 with type t<'a, 'b> := t<'a, 'b>
 }
 
