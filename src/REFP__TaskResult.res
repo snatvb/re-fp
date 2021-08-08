@@ -1,5 +1,6 @@
 module TaskResult = {
   include REFP__ResultT.MakeMapError1(REFP__Task)
+  include REFP__ResultT.MakeGetOrElse(REFP__Task)
   include REFP__ResultT.MakePointed1(REFP__Task)
   include REFP__ResultT.MakeFunctor1(REFP__Task)
   include REFP__ResultT.MakeOrLeft1(REFP__Task)

@@ -4,7 +4,7 @@ open REFP__Functor
 open REFP__Applicative
 module Option = Belt.Option
 
-let matchResult = (ma, onSome, onNone) =>
+let match = (ma, onSome, onNone) =>
   switch ma {
   | Some(a) => onSome(a)
   | None => onNone()
@@ -32,5 +32,9 @@ module MakeChain1 = (Item: Chain1) => {
 }
 
 module MakeMatch1 = (F: REFP__Functor.Functor1) => {
-  let match = (ma, onOk, onError) => ma->F.map(matchResult(onOk, onError))
+  let match = (ma, onSome, onNone) => ma->F.map(match(onSome, onNone))
+}
+
+module MakeGetOrElse = (M: REFP__Monad.Type1) => {
+  let getOrElse = (onNone, fa) => M.chain(fa, match(onNone, M.from))
 }

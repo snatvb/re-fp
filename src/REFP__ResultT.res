@@ -61,3 +61,7 @@ module MakeMatch1 = (F: REFP__Functor.Functor1) => {
 module MakeMapError1 = (F: REFP__Functor.Functor1) => {
   let mapError = (a, f) => a->F.map(f->mapError(_))
 }
+
+module MakeGetOrElse = (M: REFP__Monad.Type1) => {
+  let getOrElse = (onOk, fa) => M.chain(fa, matchResult(onOk, M.from))
+}
