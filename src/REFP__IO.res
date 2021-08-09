@@ -1,9 +1,9 @@
 module type Type = {
   type t<'a> = unit => 'a
 
+  include REFP__Applicative.Applicative1 with type t<'a> := t<'a>
   include REFP__Pointed.Pointed1 with type t<'a> := t<'a>
   include REFP__Functor.Functor1 with type t<'a> := t<'a>
-  include REFP__Applicative.Applicative1 with type t<'a> := t<'a>
   include REFP__Chain.Chain1 with type t<'a> := t<'a>
   let flatten: t<t<'a>> => t<'a>
 }
@@ -19,3 +19,5 @@ module IO: Type = {
 }
 
 include IO
+
+include REFP__Traversable.ArrayTraversable1(IO)
