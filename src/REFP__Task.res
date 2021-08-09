@@ -38,3 +38,4 @@ module Task: Type = {
 }
 
 include Task
+include REFP__Traversable.ArrayTraversable1(Task)

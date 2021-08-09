@@ -19,5 +19,4 @@ module IO: Type = {
 }
 
 include IO
-
 include REFP__Traversable.ArrayTraversable1(IO)
