@@ -1,5 +1,6 @@
 @val external describe: (string, @uncurry (unit => unit)) => unit = "describe"
 @val external test: (string, @uncurry (unit => unit)) => unit = "test"
+@val external testAsync: (string, @uncurry ((unit => unit) => unit)) => unit = "test"
 
 type e
 @val external expect: 'a => e = "expect"
