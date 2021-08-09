@@ -51,10 +51,10 @@
       "node_modules"
     ],
     "roots": [
-      "test"
+      "tests"
     ],
     "testMatch": [
-      "**/*__test.bs.js"
+      "**/*.bs.js"
     ],
     "transformIgnorePatterns": [
       "node_modules/(?!(bs-platform)/)"
