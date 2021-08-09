@@ -1,5 +1,8 @@
 module IO = REFP__IO
 module Task = REFP__Task
+module TaskOption = REFP__TaskOption
+module OptionT = REFP__OptionT
+module Functions = REFP__Functions
 module type Comparable = REFP__Types.Comparable
 module Applicative = REFP__Applicative
 module Functor = REFP__Functor

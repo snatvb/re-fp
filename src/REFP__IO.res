@@ -19,9 +19,3 @@ module IO: Type = {
 }
 
 include IO
-module Apply = REFP__Applicative.MakeApply1(IO)
-module Pointed = REFP__Pointed.MakePointed1(IO)
-module Functor = REFP__Functor.MakeFunctor1(IO)
-module Applicative = REFP__Applicative.MakeApplicative1(IO)
-module Chain = REFP__Chain.MakeChain1(IO)
-module Monad = REFP__Monad.MakeMonad1(IO)

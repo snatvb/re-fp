@@ -26,18 +26,6 @@ module MakeApFirstSecond1 = (Item: Applicative1) => {
     Item.ap(Item.map(first, (b, ()) => b), second)
 }
 
-module MakeApply1 = (Item: Apply1) => {
-  include Item
-}
-
-module MakeApply2 = (Item: Apply2) => {
-  include Item
-}
-
-module MakeApplicative1 = (Item: Applicative1) => {
-  include Item
-}
-
-module MakeApplicative2 = (Item: Applicative2) => {
-  include Item
+module CompositeApply1 = (F: Apply1, G: Apply1) => {
+  let ap = (fa, fab) => F.ap(F.map(fab, (gab, ga) => G.ap(gab, ga)), fa)
 }

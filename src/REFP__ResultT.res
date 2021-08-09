@@ -44,7 +44,7 @@ module MakeChain1 = (Item: Chain1) => {
   let chain = fa => fa->Item.chain
 }
 
-module MakeOrLeft1 = (M: REFP__Monad.Type1) => {
+module MakeOrLeft1 = (M: REFP__Monad.Monad1) => {
   let orError = (ma, f) =>
     ma->M.chain(ra =>
       switch ra {
@@ -62,6 +62,6 @@ module MakeMapError1 = (F: REFP__Functor.Functor1) => {
   let mapError = (a, f) => a->F.map(f->mapError(_))
 }
 
-module MakeGetOrElse = (M: REFP__Monad.Type1) => {
+module MakeGetOrElse = (M: REFP__Monad.Monad1) => {
   let getOrElse = (onOk, fa) => M.chain(fa, matchResult(onOk, M.from))
 }

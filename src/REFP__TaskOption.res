@@ -10,7 +10,7 @@ module TaskOption = {
   let fromTask = someF
   let fromIO = ma => ma->REFP__Task.fromIO->fromTask
   let fromOption = REFP__Task.from
-  let flatten = REFP__Task.flatten
+  let flatten = chain(_, REFP__Functions.identity)
 }
 
 include TaskOption
