@@ -15,7 +15,7 @@ module TaskResult = {
   let errorIO = a => a->REFP__Task.fromIO->errorTask
   let fromTask = okTask
   let fromResult = REFP__Task.from
-  let flatten = REFP__Task.flatten
+  let flatten = chain(_, REFP__Functions.identity)
 }
 
 include TaskResult

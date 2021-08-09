@@ -1,4 +1,4 @@
-open REFP__Chain
+open REFP__Monad
 open REFP__Pointed
 open REFP__Functor
 open REFP__Applicative
@@ -41,7 +41,7 @@ module MakePointed1 = (Item: Pointed1) => {
 }
 
 module MakeFunctor1 = (Item: Functor1) => {
-  let map = (f, fa) => Item.map(fa, ga => Result.map(ga, f))
+  let map = (fa, f) => Item.map(fa, ga => Result.map(ga, f))
   let okF = fa => fa->Item.map(a => Result.Ok(a))
   let errorF = fa => fa->Item.map(a => Result.Error(a))
 }
@@ -50,8 +50,14 @@ module MakeApply1 = (Item: Apply1) => {
   let ap = (fa, mf) => fa->Item.ap(Item.map(mf, (f, a) => ap(a, f)))
 }
 
-module MakeChain1 = (Item: Chain1) => {
-  let chain = fa => fa->Item.chain
+module MakeChain1 = (Item: Monad1) => {
+  let chain = (fa, f) =>
+    fa->Item.chain(ma =>
+      switch ma {
+      | Ok(a) => f(a)
+      | Error(e) => Item.from(Error(e))
+      }
+    )
 }
 
 module MakeOrLeft1 = (M: REFP__Monad.Monad1) => {
