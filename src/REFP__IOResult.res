@@ -14,7 +14,7 @@ module IOResult = {
   let fromResult = REFP__IO.from
   let map2 = mapError
   let chain2 = orError
-  let flatten = REFP__IO.flatten
+  let flatten = chain(_, REFP__Functions.identity)
 }
 
 include IOResult

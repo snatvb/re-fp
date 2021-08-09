@@ -79,5 +79,5 @@ module MakeMapError1 = (F: REFP__Functor.Functor1) => {
 }
 
 module MakeGetOrElse = (M: REFP__Monad.Monad1) => {
-  let getOrElse = (onOk, fa) => M.chain(fa, matchResult(onOk, M.from))
+  let getOrElse = (fa, onError) => M.chain(fa, matchResult(_, M.from, onError))
 }
