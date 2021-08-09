@@ -22,6 +22,16 @@ let chainError = (ma, f) =>
   | Ok(a) => Ok(a)
   }
 
+let ap = (mfa, mf) =>
+  switch mf {
+  | Ok(f) =>
+    switch mfa {
+    | Ok(a) => Ok(f(a))
+    | Error(e) => Error(e)
+    }
+  | Error(e) => Error(e)
+  }
+
 let ok = a => Ok(a)
 let error = a => Error(a)
 
@@ -37,7 +47,7 @@ module MakeFunctor1 = (Item: Functor1) => {
 }
 
 module MakeApply1 = (Item: Apply1) => {
-  let ap = fa => fa->Item.ap
+  let ap = (fa, mf) => fa->Item.ap(Item.map(mf, (f, a) => ap(a, f)))
 }
 
 module MakeChain1 = (Item: Chain1) => {
