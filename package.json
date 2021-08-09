@@ -64,7 +64,9 @@
     "type": "git",
     "url": "https://github.com/snatvb/re-fp.git"
   },
-  "czConfig": {
-    "path": "node_modules/cz-conventional-changelog"
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-conventional-changelog"
+    }
   }
 }
