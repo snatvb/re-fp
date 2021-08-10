@@ -50,4 +50,14 @@ describe("TaskOption", () => {
 
     task()->awaitThen(done, a => a->Result.getWithDefault(0)->expect->toBe(35))
   })
+
+  testAsync("traverseArray", done => {
+    let task = [1, 2, 3]->TR.traverseArray(TR.ok)->TR.map(Belt.Array.map(_, double))
+    task()->awaitThen(done, a => a->Result.getWithDefault([0])->expect->toEqual([2, 4, 6]))
+  })
+
+  testAsync("sequnceArray", done => {
+    let task = [1, 2, 3]->Belt.Array.map(TR.ok)->TR.sequenceArray
+    task()->awaitThen(done, a => a->Result.getWithDefault([0])->expect->toEqual([1, 2, 3]))
+  })
 })
