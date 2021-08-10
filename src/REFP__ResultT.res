@@ -32,6 +32,16 @@ let ap = (mfa, mf) =>
   | Error(e) => Error(e)
   }
 
+let apError = (mfa, mf) =>
+  switch mf {
+  | Ok(f) => Ok(f)
+  | Error(fe) =>
+    switch mfa {
+    | Ok(a) => Ok(a)
+    | Error(e) => Error(fe(e))
+    }
+  }
+
 let ok = a => Ok(a)
 let error = a => Error(a)
 
@@ -48,6 +58,7 @@ module MakeFunctor1 = (Item: Functor1) => {
 
 module MakeApply1 = (Item: Apply1) => {
   let ap = (fa, mf) => fa->Item.ap(Item.map(mf, (f, a) => ap(a, f)))
+  let apError = (fa, mf) => fa->Item.ap(Item.map(mf, (f, a) => apError(a, f)))
 }
 
 module MakeChain1 = (Item: Monad1) => {
@@ -75,7 +86,7 @@ module MakeMatch1 = (F: REFP__Functor.Functor1) => {
 }
 
 module MakeMapError1 = (F: REFP__Functor.Functor1) => {
-  let mapError = (a, f) => a->F.map(f->mapError(_))
+  let mapError = (ma, f) => ma->F.map(mapError(_, f))
 }
 
 module MakeGetOrElse = (M: REFP__Monad.Monad1) => {
