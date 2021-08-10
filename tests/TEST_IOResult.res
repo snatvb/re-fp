@@ -44,4 +44,14 @@ describe("IOResult", () => {
     let io = IOR.error(5)->IOR.getOrElse((_, ()) => 0)
     io()->expect->toBe(0)
   })
+
+  test("traverseArray", () => {
+    let task = [1, 2, 3]->IOR.traverseArray(IOR.ok)->IOR.map(Belt.Array.map(_, double))
+    task()->Result.getWithDefault([0])->expect->toEqual([2, 4, 6])
+  })
+
+  test("sequnceArray", () => {
+    let task = [1, 2, 3]->Belt.Array.map(IOR.ok)->IOR.sequenceArray
+    task()->Result.getWithDefault([0])->expect->toEqual([1, 2, 3])
+  })
 })
