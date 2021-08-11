@@ -32,6 +32,18 @@ describe("TaskOption", () => {
     task()->awaitThen(done, a => a->Result.getWithDefault(0)->expect->toBe(10))
   })
 
+  testAsync("mapError", done => {
+    let task = TR.error("not found")->TR.mapError(err => `Error: ${err}`)
+    task()->awaitThen(
+      done,
+      REFP__ResultT.matchResult(
+        _,
+        _ => "Unreachable"->expect->toBe("Error: not found"),
+        e => e->expect->toBe("Error: not found"),
+      ),
+    )
+  })
+
   testAsync("chain", done => {
     let task = TR.ok(5)->TR.map(double)->TR.chain(a => request->TR.fromTask->TR.map(b => a + b))
     task()->awaitThen(done, a => a->Result.getWithDefault(0)->expect->toBe(40))
