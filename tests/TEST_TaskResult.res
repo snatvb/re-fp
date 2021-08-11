@@ -44,6 +44,20 @@ describe("TaskOption", () => {
     )
   })
 
+  testAsync("chainError", done => {
+    let readSomething = (_, ()) =>
+      Promise.make((resolve, _) => setTimeout(() => resolve(. Error("not found")), 50)->ignore)
+    let task = TR.ok(5)->TR.chain(readSomething)->TR.mapError(err => `Error: ${err}`)
+    task()->awaitThen(
+      done,
+      REFP__ResultT.matchResult(
+        _,
+        _ => "Unreachable"->expect->toBe("Error: not found"),
+        e => e->expect->toBe("Error: not found"),
+      ),
+    )
+  })
+
   testAsync("chain", done => {
     let task = TR.ok(5)->TR.map(double)->TR.chain(a => request->TR.fromTask->TR.map(b => a + b))
     task()->awaitThen(done, a => a->Result.getWithDefault(0)->expect->toBe(40))

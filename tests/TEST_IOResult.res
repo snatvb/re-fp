@@ -32,16 +32,6 @@ describe("IOResult", () => {
     io()->Result.getWithDefault(0)->expect->toBe(40)
   })
 
-  test("chainError", () => {
-    let readSomething = (_, ()) => Error("not found")
-    let task = IOR.ok(5)->IOR.chain(readSomething)->IOR.mapError(err => `Error: ${err}`)
-    task()->REFP__ResultT.matchResult(
-      _,
-      _ => "Unreachable"->expect->toBe("Error: not found"),
-      e => e->expect->toBe("Error: not found"),
-    )
-  })
-
   test("flatten", () => {
     let sum = (a, ()) => Ok(a + 30)
     let io = IOR.ok(5)->IOR.map(double)->IOR.map(sum)->IOR.flatten
@@ -72,5 +62,15 @@ describe("IOResult", () => {
   test("sequnceArray", () => {
     let task = [1, 2, 3]->Belt.Array.map(IOR.ok)->IOR.sequenceArray
     task()->Result.getWithDefault([0])->expect->toEqual([1, 2, 3])
+  })
+
+  test("map -> chain -> mapError", () => {
+    let readSomething = (_, ()) => Error("not found")
+    let task = IOR.ok(5)->IOR.chain(readSomething)->IOR.mapError(err => `Error: ${err}`)
+    task()->REFP__ResultT.matchResult(
+      _,
+      _ => "Unreachable"->expect->toBe("Error: not found"),
+      e => e->expect->toBe("Error: not found"),
+    )
   })
 })
