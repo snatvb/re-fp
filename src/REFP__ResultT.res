@@ -69,6 +69,13 @@ module MakeChain1 = (Item: Monad1) => {
       | Error(e) => Item.from(Error(e))
       }
     )
+  let chainError = (fa, f) =>
+    fa->Item.chain(ma =>
+      switch ma {
+      | Ok(a) => Ok(a)->Item.from
+      | Error(e) => f(e)
+      }
+    )
 }
 
 module MakeOrLeft1 = (M: REFP__Monad.Monad1) => {
