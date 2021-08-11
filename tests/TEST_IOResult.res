@@ -32,6 +32,16 @@ describe("IOResult", () => {
     io()->Result.getWithDefault(0)->expect->toBe(40)
   })
 
+  test("chainError", () => {
+    let readSomething = (_, ()) => Error("not found")
+    let task = IOR.ok(5)->IOR.chain(readSomething)->IOR.mapError(err => `Error: ${err}`)
+    task()->REFP__ResultT.matchResult(
+      _,
+      _ => "Unreachable"->expect->toBe("Error: not found"),
+      e => e->expect->toBe("Error: not found"),
+    )
+  })
+
   test("flatten", () => {
     let sum = (a, ()) => Ok(a + 30)
     let io = IOR.ok(5)->IOR.map(double)->IOR.map(sum)->IOR.flatten
