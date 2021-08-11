@@ -17,6 +17,15 @@ describe("IOResult", () => {
     io()->Result.getWithDefault(0)->expect->toBe(10)
   })
 
+  test("mapError", () => {
+    let task = IOR.error("not found")->IOR.mapError(err => `Error: ${err}`)
+    task()->REFP__ResultT.matchResult(
+      _,
+      _ => "Unreachable"->expect->toBe("Error: not found"),
+      e => e->expect->toBe("Error: not found"),
+    )
+  })
+
   test("chain", () => {
     let sum = (a, ()) => Ok(a + 30)
     let io = IOR.ok(5)->IOR.map(double)->IOR.chain(sum)
