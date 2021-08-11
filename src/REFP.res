@@ -10,3 +10,4 @@ module Applicative = REFP__Applicative
 module Functor = REFP__Functor
 module Pointed = REFP__Pointed
 module Chain = REFP__Chain
+module Shorst = REFP__Shorts
