@@ -7,6 +7,8 @@ module Result = REFP__ResultT.Result
 let double = x => x * 2
 
 describe("IOResult", () => {
+  let readSomething = (_, ()) => Error("not found")
+
   test("ok", () => {
     let io = IOR.ok(5)
     io()->Result.getWithDefault(0)->expect->toBe(5)
@@ -30,6 +32,15 @@ describe("IOResult", () => {
     let sum = (a, ()) => Ok(a + 30)
     let io = IOR.ok(5)->IOR.map(double)->IOR.chain(sum)
     io()->Result.getWithDefault(0)->expect->toBe(40)
+  })
+
+  test("chainError", () => {
+    let task = IOR.error("omg")->IOR.chainError(readSomething)->IOR.mapError(err => `Error: ${err}`)
+    task()->REFP__ResultT.matchResult(
+      _,
+      _ => "Unreachable"->expect->toBe("Error: not found"),
+      e => e->expect->toBe("Error: not found"),
+    )
   })
 
   test("flatten", () => {
@@ -65,7 +76,6 @@ describe("IOResult", () => {
   })
 
   test("map -> chain -> mapError", () => {
-    let readSomething = (_, ()) => Error("not found")
     let task = IOR.ok(5)->IOR.chain(readSomething)->IOR.mapError(err => `Error: ${err}`)
     task()->REFP__ResultT.matchResult(
       _,

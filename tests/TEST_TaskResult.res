@@ -9,6 +9,9 @@ module TR = TaskResult
 module Result = REFP__ResultT.Result
 
 describe("TaskOption", () => {
+  let readSomething = (_, ()) =>
+    Promise.make((resolve, _) => setTimeout(() => resolve(. Error("not found")), 50)->ignore)
+
   let request: Task.t<int> = () =>
     Promise.make((resolve, _) => setTimeout(() => resolve(. 30), 50)->ignore)
 
@@ -44,10 +47,13 @@ describe("TaskOption", () => {
     )
   })
 
+  testAsync("chain", done => {
+    let task = TR.ok(5)->TR.map(double)->TR.chain(a => request->TR.fromTask->TR.map(b => a + b))
+    task()->awaitThen(done, a => a->Result.getWithDefault(0)->expect->toBe(40))
+  })
+
   testAsync("chainError", done => {
-    let readSomething = (_, ()) =>
-      Promise.make((resolve, _) => setTimeout(() => resolve(. Error("not found")), 50)->ignore)
-    let task = TR.ok(5)->TR.chain(readSomething)->TR.mapError(err => `Error: ${err}`)
+    let task = TR.error("omg")->TR.chainError(readSomething)->TR.mapError(err => `Error: ${err}`)
     task()->awaitThen(
       done,
       REFP__ResultT.matchResult(
@@ -56,11 +62,6 @@ describe("TaskOption", () => {
         e => e->expect->toBe("Error: not found"),
       ),
     )
-  })
-
-  testAsync("chain", done => {
-    let task = TR.ok(5)->TR.map(double)->TR.chain(a => request->TR.fromTask->TR.map(b => a + b))
-    task()->awaitThen(done, a => a->Result.getWithDefault(0)->expect->toBe(40))
   })
 
   testAsync("flatten", done => {
@@ -85,5 +86,17 @@ describe("TaskOption", () => {
   testAsync("sequnceArray", done => {
     let task = [1, 2, 3]->Belt.Array.map(TR.ok)->TR.sequenceArray
     task()->awaitThen(done, a => a->Result.getWithDefault([0])->expect->toEqual([1, 2, 3]))
+  })
+
+  testAsync("map -> chain -> mapError", done => {
+    let task = TR.ok(5)->TR.chain(readSomething)->TR.mapError(err => `Error: ${err}`)
+    task()->awaitThen(
+      done,
+      REFP__ResultT.matchResult(
+        _,
+        _ => "Unreachable"->expect->toBe("Error: not found"),
+        e => e->expect->toBe("Error: not found"),
+      ),
+    )
   })
 })
