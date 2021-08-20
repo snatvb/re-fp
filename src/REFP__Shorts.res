@@ -5,3 +5,5 @@ module TO = REFP__TaskOption
 module TR = REFP__TaskResult
 module OT = REFP__OptionT
 module FN = REFP__Functions
+module R = REFP__Reader
+module W = REFP__Writer
