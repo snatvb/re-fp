@@ -1,5 +1,7 @@
 module IO = REFP__IO
 module Task = REFP__Task
+module Reader = REFP__Reader
+module Writer = REFP__Writer
 module IOResult = REFP__IOResult
 module TaskOption = REFP__TaskOption
 module TaskResult = REFP__TaskResult
