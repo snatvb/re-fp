@@ -1,7 +1,7 @@
 module IOResult = {
   type t<'a, 'b> = REFP__IO.t<result<'a, 'b>>
 
-  include REFP__ResultT.MakeGetOrElse(REFP__IO)
+  include REFP__ResultT.MakeGetOrElse1(REFP__IO)
   include REFP__ResultT.MakeMapError1(REFP__IO)
   include REFP__ResultT.MakePointed1(REFP__IO)
   include REFP__ResultT.MakeFunctor1(REFP__IO)

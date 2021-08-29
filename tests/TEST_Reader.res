@@ -57,7 +57,7 @@ describe("Reader", () => {
       | #prod => 10
       | #dev => 3
       }
-    let f = R.from(addOne)->R.ap(R.from(double)->R.ap(c))
+    let f = R.from(addOne)->R.ap(R.from(double)->R.ap(c, _), _)
     #prod->f->expect->toBe(21)
     #dev->f->expect->toBe(7)
   })

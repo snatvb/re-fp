@@ -1,7 +1,7 @@
 module TaskResult = {
   type t<'a, 'b> = REFP__Task.t<result<'a, 'b>>
   include REFP__ResultT.MakeMapError1(REFP__Task)
-  include REFP__ResultT.MakeGetOrElse(REFP__Task)
+  include REFP__ResultT.MakeGetOrElse1(REFP__Task)
   include REFP__ResultT.MakePointed1(REFP__Task)
   include REFP__ResultT.MakeFunctor1(REFP__Task)
   include REFP__ResultT.MakeOrLeft1(REFP__Task)

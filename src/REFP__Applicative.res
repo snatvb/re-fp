@@ -6,7 +6,6 @@ module type Apply1 = {
 module type Apply2 = {
   include REFP__Functor.Functor2
   let ap: (t<'a, 'b>, t<'a => 'c, 'b>) => t<'c, 'b>
-  let ap2: (t<'a, 'b>, t<'a, 'b => 'c>) => t<'a, 'c>
 }
 
 module type Applicative1 = {
