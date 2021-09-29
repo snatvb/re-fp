@@ -10,6 +10,8 @@ module ReaderResult = {
   include REFP__ResultT.MakeMatch2(REFP__Reader)
 
   let flatten = chain(_, REFP__Functions.identity)
+  let ask: unit => t<'r, 'a, 'b> = () => REFP__Functions.identity
+  let from = ok
 }
 
 include ReaderResult
